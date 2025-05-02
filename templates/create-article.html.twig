@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Articles</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    
 
     </head>
 <body>
 <main>
     <h1>Creer un article</h1>
 
-    <form action="{{ path('create_article') }}" method="POST">
+    <form action="POST">
         <div>
-            <label for="title">Title:</label>
+            <label for="title">Titre:</label>
             <input type="text" id="title" name="title" required>
         </div>
         <div>
-            <label for="content">Content:</label>
+            <label for="content">Contenu:</label>
             <textarea id="content" name="content" required></textarea>
         </div>
         <div>
-            <labelfor="image">Image URL:</label>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        <div>
+            <labelfor="image">Image:</label>
             <input type="text" id="image" name="image" required>
         </div>
         <button type="submit">Create Article</button>
     </form>
 
-    <a href="{{ path('articles') }}">retour aux articles</a>
+    
