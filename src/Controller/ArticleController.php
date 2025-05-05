@@ -9,7 +9,9 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository; //Importation de la classe EntityRepository pour la gestion des entités
 
+// Création d'articles
 //David: Après la création de l'instance de la classe Article, utilisez une instance la 
 //classe EntityManagerInterface pour insérer en bdd les données de l'article
 
@@ -44,7 +46,7 @@ class ArticleController extends AbstractController
         return $this->render('create-article.html.twig');
     }
 
-
+    //Liste d'articles
     //David: Créez une nouvelle page avec l'url "list-articles", qui affichent tous les articles de la table article
 
     #[Route('/list-articles', name: 'list-articles')]  //Route vers la page d'affichage des articles
@@ -58,8 +60,8 @@ class ArticleController extends AbstractController
 
 
 
-
-     // David: Créez une nouvelle page avec l'url "details-article/{id}", qui affichent les détails d'un article de la table article
+     //Détails de l'article
+     // David: 1 Créez une nouvelle page avec l'url "details-article/{id}", qui affichent les détails d'un article de la table article
      // Ne pas oublier de mettre dans l'url l'id de l'article à afficher, ex: details-article/1
      #[Route('/details-article/{id}', name: 'details-article')]  //Route vers la page d'affichage des détails d'un article
      public function displayArticleDetails($id, ArticleRepository $articleRepository) //Injection de dépendance de l'ArticleRepository
@@ -74,10 +76,40 @@ class ArticleController extends AbstractController
            'article' => $article,     //Passage de la variable $article à la vue
        ]);
      }
+
+     // Supprimer l'article
+     public function deleteArticle($id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager) //Injection de dépendance de l'ArticleRepository
+     {
+        //SELECT * FROM article WHERE id = $id
+        $article = $articleRepository->find($id);  //Récupération de l'article avec l'id passé en paramètre de la route
+        $entityManager->remove($article); //Préparation de l'entité Article pour la suppression dans la base de données
+        $entityManager->flush();            //Envoi de la requête à la base de données pour la suppression de l'article
+
+        $message = $this->addFlash('success', 'L\'article a été supprimé avec succès !'); //Création d'un message flash de succès pour la suppression de l'article
+
+        return $this->redirectToRoute('list-articles'); //Redirection vers la liste des articles après la suppression   
+
+       }
 }        
-    
-//{#Créez une nouvelle page, dans votre classe PageController, nommée 404
+   
+//2 {#Créez une nouvelle page, dans votre classe PageController, nommée 404
 //Créez un fichier twig 404.html.twig affichant "page non trouvée" 
 //Si dans le cas où l'article n'existe pas, redirigez vers la page 404
 //Dans la fonction de controleur, générez le html issu du fichier twig 404 en utilisant la fonction $this->renderView
-//Retournez une réponse HTTP incluant le HTML généré et un status 200#}       
+//Retournez une réponse HTTP incluant le HTML généré et un status 200#} 
+
+//3 Créez une nouvelle page, dans votre classe ArticleController, nommée delete-articles
+//4 Créez un base.html.twig avec un header contenant menu avec des liens vers la page d'accueil 
+//  et la page de liste des articles, Faites un peu de CSS,
+//  Dans la liste des articles, pour chaque article,  n'affichez que le titre et l'image et 
+//  faites un lien vers la page de détails de l'article pour voir le reste
+
+//5 Créez un bouton supprimer sur la page de détails de l'article qui appelle la route delete-article/{id} par l'id de l'article
+// 5.1 Dans la méthode deleteArticle, utilisez l'EntityManagerInterface pour supprimer l'article de la base de données
+// 5.2 Dans la méthode deleteArticle, utilisez l'EntityManagerInterface pour supprimer l'article de la base de données
+// 5.3 David: Créez une page dans le controller d'article, qui permet de supprimer un article en fonction de son id
+//Cette méthode prend un id en parametre d'url, récupère l'article avec le repository et le supprime avec l'entity manager
+//après la supression, ajoutez un message flash de succès et redirigez vers la page de liste des articles
+//dans la liste des articles, faites un lien pour chaque article vers la page de suppression de de l'article
+//pensez à ajoutez l'affichage des messages flashes dans votre votre base.html.twig
+//6 Créez un message flash de succès pour la suppression de l'article et redirigez vers la page d'accueil

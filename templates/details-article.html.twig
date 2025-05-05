@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>Details-articles</title>
-</head>
-
-<body>
+{% extends 'base.html.twig' %}
 
     {#
     David: Dans votre fonction, grâce à une instance de la classe ArticleRepository 
@@ -25,7 +16,6 @@
                 <p>Créé le {{ article.createdAt | date()}}</p>
             </article>
         </section>
-    </main> 
-    </body>
-</html>
+    
+    {% endblock main %}
 

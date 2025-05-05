@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <title>Piscine-Blog-2025</title> 
+    </head>
+    <body>
+
+    <header>
+        <a href="{{ path('home') }}">Accueil</a>
+        <img class="logo-header" src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="{{ path('home') }}">Accueil</a></li>
+                <li><a href="{{ path('list-articles', {'id': article.id}) }}">Listes des article</a></li>
+            </ul>
+        </nav>
+
+    <main class="main">
+
+        {% for message in app.flashes('success') %}  
+            <div class="success-message">
+                <p>{{ message }}</p>
+            </div>
+        {% endfor %}
+            
+           
+
+        {% block main %}
+
+        {% endblock main %}
+    </main>    
+    
+    <footer class="footer">
+        <p>&copy; 2025 Piscine-Blog</p>
+      </footer> 
+    </body>
+</html>
