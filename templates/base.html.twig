@@ -8,12 +8,15 @@
     <body>
 
     <header>
-        <a href="{{ path('home') }}">Accueil</a>
+        
         <img class="logo-header" src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
         <nav>
             <ul>
                 <li><a href="{{ path('home') }}">Accueil</a></li>
-                <li><a href="{{ path('list-articles') }}">Listes des article</a></li>
+                <li><a href="{{ path('list-articles') }}">Listes des articles</a></li>
+                <li><a href="{{ path('create-article') }}">Créer un article</a></li>
+                <li><a href="{{ path('delete-article') }}">Supprimer un article</a></li>
+                <li><a href="{{ path('update-article') }}">Modifier un article</a></li>
             </ul>
         </nav>
 

@@ -77,7 +77,7 @@ class ArticleController extends AbstractController
        ]);
      }
 
-     // Supprimer l'article
+     // Supprimer l'article (5)
      public function deleteArticle($id, ArticleRepository $articleRepository, EntityManagerInterface $entityManager) //Injection de dépendance de l'ArticleRepository
      {
         //SELECT * FROM article WHERE id = $id
@@ -90,6 +90,26 @@ class ArticleController extends AbstractController
         return $this->redirectToRoute('list-articles'); //Redirection vers la liste des articles après la suppression   
 
        }
+
+
+        // David (6) : Créez une nouvelle page pour mettre à jour (update/Modifier) un article
+        //Dans l'url, ajoutez un parametre id
+        //Récupérez en bdd l'article lié à cet id
+        //Affichez un formulaire en twig avec en champs le titre, image, content et description, chacun pré-rempli avec les valeurs de l'article récupér
+
+       #[Route('/update-article/{id}', name: 'update-article')]  //Route vers la page de mise à jour d'un article
+       public function displayUpdateArticle($id, ArticleRepository $articleRepository) //Injection de dépendance de l'ArticleRepository
+       {
+        //SELECT * FROM article WHERE id = $id
+        $article = $articleRepository->find($id);  //Récupération de l'article avec l'id passé en paramètre de la route
+            if (!$article) {  //Si l'article n'existe pas
+            return $this->redirectToRoute('404');  
+        } 
+         //SELECT * FROM article WHERE id = $id
+            return $this->render('update-article.html.twig', [  //Rendu de la vue details-article.html.twig
+            'article' => $article     //Passage de la variable $article à la vue
+        ]);
+}
 }        
    
 //2 {#Créez une nouvelle page, dans votre classe PageController, nommée 404

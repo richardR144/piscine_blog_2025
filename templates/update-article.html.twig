@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+
+{% block main %} 
+    <h1>Modifier un article</h1>
+
+    <form action="POST">
+        <div>
+            <label for="title">Titre:</label>
+            <input type="text" id="title" name="title" required value="{{ article.title }}">
+        </div>
+        <div>
+            <label for="content">Contenu:</label>
+            <textarea id="content" name="content" required value="{{article.content}}"></textarea>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required value="{{article.description}}"></textarea>
+        </div>
+        <div>
+            <labelfor="image">Image:</label>
+            <input type="text" id="image" name="image" required value="{{article.image}}">
+        </div>
+        <button type="submit">Supprimer l'article</button>
+    </form>
+{% endblock main %}
+    

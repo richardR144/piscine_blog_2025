@@ -5,8 +5,10 @@
     et la méthode find, récupérez un article en fonction de son id. Affichez le contenu 
     de l'article dans un fichier twig
     #}
+    {% block main %}
     
-    <main>
+    <main class="main">
+        <h1>Détails de l'article</h1>
         <section>
             <article>
                 <h2>{{ article.title }}</h2>
