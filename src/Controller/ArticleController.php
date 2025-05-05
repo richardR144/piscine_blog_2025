@@ -10,6 +10,9 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
+//David: Après la création de l'instance de la classe Article, utilisez une instance la 
+//classe EntityManagerInterface pour insérer en bdd les données de l'article
+
 class ArticleController extends AbstractController
 {
     #[Route('/create-article', name: 'create-article')]
@@ -41,6 +44,7 @@ class ArticleController extends AbstractController
         return $this->render('create-article.html.twig');
     }
 
+    //David: Créez une nouvelle page avec l'url "list-articles", qui affichent tous les articles de la table article
 
     #[Route('/list-articles', name: 'list-articles')]  //Route vers la page d'affichage des articles
     public function displayArticle(ArticleRepository $articleRepository): Response  //Injection de dépendance de l'ArticleRepository
@@ -50,7 +54,16 @@ class ArticleController extends AbstractController
             'articles' => $articles,     //Passage de la variable $articles à la vue
         ]);
      }
+
+     // David: Créez une nouvelle page avec l'url "details-article/{id}", qui affichent les détails d'un article de la table article
+     // Ne pas oublier de mettre dans l'url l'id de l'article à afficher, ex: details-article/1
+     #[Route('/details-article/{id}', name: 'details-article')]  //Route vers la page d'affichage des détails d'un article
+     public function displayArticleDetails(ArticleRepository $articleRepository, int $id) //Injection de dépendance de l'ArticleRepository
+     {
+        dd($id);
+        
+     }
+    
 }        
     
-        dd($articles);
-   
+        

@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * @extends ServiceEntityRepository<Article>
  */
-class ArticleRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository  //la méthode findAll() est déjà implémentée dans la classe parente ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
