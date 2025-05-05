@@ -76,4 +76,8 @@ class ArticleController extends AbstractController
      }
 }        
     
-        
+//{#Créez une nouvelle page, dans votre classe PageController, nommée 404
+//Créez un fichier twig 404.html.twig affichant "page non trouvée" 
+//Si dans le cas où l'article n'existe pas, redirigez vers la page 404
+//Dans la fonction de controleur, générez le html issu du fichier twig 404 en utilisant la fonction $this->renderView
+//Retournez une réponse HTTP incluant le HTML généré et un status 200#}       
