@@ -24,7 +24,7 @@ class ArticleController extends AbstractController
             $title = $request->request->get('title');
             $content = $request->request->get('content');
             $description = $request->request->get('description');
-            $image = $request->files->get('image');
+            $image = $request->request->get('image');
 
             
             $article = new Article($title, $description, $content, $image);
@@ -42,6 +42,7 @@ class ArticleController extends AbstractController
 
             $entityManager->persist($article);  //Préparation de l'entité Article pour l'insertion dans la base de données
             $entityManager->flush();            //Envoi de la requête à la base de données pour l'insertion de l'article
+            $message = $this->addFlash('success', 'L\'article a été créé avec succès !'); //Création d'un message flash de succès pour la création de l'article
         }
         return $this->render('create-article.html.twig');
     }
@@ -98,19 +99,41 @@ class ArticleController extends AbstractController
         //Affichez un formulaire en twig avec en champs le titre, image, content et description, chacun pré-rempli avec les valeurs de l'article récupér
 
        #[Route('/update-article/{id}', name: 'update-article')]  //Route vers la page de mise à jour d'un article
-       public function displayUpdateArticle($id, ArticleRepository $articleRepository) //Injection de dépendance de l'ArticleRepository
+       public function displayUpdateArticle($id, ArticleRepository $articleRepository, Request $request, EntityManagerInterface $entityManager) //Injection de dépendance de l'ArticleRepository
        {
+        
         //SELECT * FROM article WHERE id = $id
         $article = $articleRepository->find($id);  //Récupération de l'article avec l'id passé en paramètre de la route
-            if (!$article) {  //Si l'article n'existe pas
-            return $this->redirectToRoute('404');  
-        } 
-         //SELECT * FROM article WHERE id = $id
+            
+        if ($request->isMethod("POST")) {  //Si l'article n'existe pas
+                $title = $request->request->get('title');  //Récupération du titre du formulaire
+                $content = $request->request->get('content');  //Récupération du contenu du formulaire
+                $description = $request->request->get('description');  //Récupération de la description du formulaire
+                $image = $request->request->get('image');  //Récupération de l'image du formulaire
+
+                //Méthode 1: en déclarant tous les setters
+                //$article->setTitle($title);
+                //$article->setContent($content);
+                //$article->setDescription($description);
+                //$article->setImage($image);
+                //$article->setCreatedAt(new \DateTime());
+
+                //Méthode 2: Mise à jour de l'article dans l'entité Article (avec la méthode updat et respecte l'encapsulation)
+                // $article = new Article($title, $description, $content, $image); et faire le setter dans l'entité Article.php
+
+                $article->update($title, $description, $content, $image); //Mise à jour de l'article avec les nouvelles valeurs du formulaire
+
+                $entityManager->persist($article);  //Préparation de l'entité Article pour la mise à jour dans la base de données
+                $entityManager->flush();            //Envoi de la requête à la base de données pour la mise à jour de l'article
+                
+                $message = $this->addFlash('success', 'L\'article a été modifié avec succès !');
+            }
+            
             return $this->render('update-article.html.twig', [  //Rendu de la vue details-article.html.twig
             'article' => $article     //Passage de la variable $article à la vue
         ]);
 }
-}        
+}       
    
 //2 {#Créez une nouvelle page, dans votre classe PageController, nommée 404
 //Créez un fichier twig 404.html.twig affichant "page non trouvée" 
