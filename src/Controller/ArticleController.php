@@ -44,6 +44,7 @@ class ArticleController extends AbstractController
         return $this->render('create-article.html.twig');
     }
 
+
     //David: Créez une nouvelle page avec l'url "list-articles", qui affichent tous les articles de la table article
 
     #[Route('/list-articles', name: 'list-articles')]  //Route vers la page d'affichage des articles
@@ -55,15 +56,24 @@ class ArticleController extends AbstractController
         ]);
      }
 
+
+
+
      // David: Créez une nouvelle page avec l'url "details-article/{id}", qui affichent les détails d'un article de la table article
      // Ne pas oublier de mettre dans l'url l'id de l'article à afficher, ex: details-article/1
      #[Route('/details-article/{id}', name: 'details-article')]  //Route vers la page d'affichage des détails d'un article
-     public function displayArticleDetails(ArticleRepository $articleRepository, int $id) //Injection de dépendance de l'ArticleRepository
+     public function displayArticleDetails($id, ArticleRepository $articleRepository) //Injection de dépendance de l'ArticleRepository
      {
-        dd($id);
-        
+        //SELECT * FROM article WHERE id = $id
+       $article = $articleRepository->find($id);  //Récupération de l'article avec l'id passé en paramètre de la route
+       if (!$article) {  //Si l'article n'existe pas
+           return $this->redirectToRoute('404');  
+       } 
+        //SELECT * FROM article WHERE id = $id
+       return $this->render('details-article.html.twig', [  //Rendu de la vue details-article.html.twig
+           'article' => $article,     //Passage de la variable $article à la vue
+       ]);
      }
-    
 }        
     
         

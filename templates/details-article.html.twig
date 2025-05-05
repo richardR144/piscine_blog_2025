@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <title>List-articles</title>
+    <title>Details-articles</title>
 </head>
+
 <body>
-   
+
+    {#
+    David: Dans votre fonction, grâce à une instance de la classe ArticleRepository 
+    et la méthode find, récupérez un article en fonction de son id. Affichez le contenu 
+    de l'article dans un fichier twig
+    #}
+    
     <main>
         <section>
-            {% for article in articles %}  {# boucle sur les articles #}
             <article>
                 <h2>{{ article.title }}</h2>
                 <p>{{ article.description }}</p>
@@ -18,10 +24,8 @@
                 <p>{{ article.content }}</p>
                 <p>Créé le {{ article.createdAt | date()}}</p>
             </article>
-            {% endfor %}
         </section>
-    </main>
-
-</body>
+    </main> 
+    </body>
 </html>
-    
+
