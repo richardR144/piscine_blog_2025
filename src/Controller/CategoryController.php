@@ -45,9 +45,31 @@ class CategoryController extends AbstractController
 
     //Création d'une catégorie
     #[Route('/create-category', name: 'create-category')]
-    public function displayCreateCategory(Request $request, EntityManagerInterface $entityManager): Response
+    public function displayCreateCategory(Request $request, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
+        $categoryForm = $this->createForm(CategoryForm::class, $category);
+        $categoryForm->handleRequest($request);
+
+        if ($categoryForm->isSubmitted()) {
+
+            $category->setCreatedAt(new \DateTime());
+            $entityManager->persist($category);
+            $entityManager->flush();
+            $this->addFlash('success', 'La catégorie a été créée avec succès !');
+        }
+
+        return $this->render('create-category.html.twig', [
+            'categoryForm' => $categoryForm->createView()
+        ]);
+    } 
+    
+    //Modification d'une catégorie
+    #[Route('/update-category/{id}', name: 'update-category')]
+    public function displayupdateCategory($id, Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
+    {
+        
+        $category = $categoryRepository->find($id);
         $categoryForm = $this->createForm(CategoryForm::class, $category);
         $categoryForm->handleRequest($request);
 
@@ -58,11 +80,10 @@ class CategoryController extends AbstractController
             $this->addFlash('success', 'La catégorie a été créée avec succès !');
         }
 
-        return $this->render('create-category.html.twig', [
+        return $this->render('update-category.html.twig', [
             'categoryForm' => $categoryForm->createView()
         ]);
     }
-       
-    }
 
-    
+}   
+
