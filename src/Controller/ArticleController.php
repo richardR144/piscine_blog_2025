@@ -134,21 +134,8 @@ class ArticleController extends AbstractController
         ]);
 }
 
-    //David (7) : Insérez quelques categories dans la table catégories
-    //Créez une page pour lister toutes les catégories (titre)
-    //Créez une page qui affiche de détails d'une catégorie via son id
-    //Ajoutez un lien sous chaque catégorie sur la liste des catégories pour voir le détail de la catégorie cliquée
-
-    #[Route('/category/{title}', name: 'category-articles')]  //Route vers la page d'affichage des articles par catégorie
-    public function displayCategoryArticles($category, ArticleRepository $articleRepository): Response //Injection de dépendance de l'ArticleRepository
-    {
-        $articles = $articleRepository->findBy(['category' => $category]);  //Récupération de tous les articles de la base de données avec la méthode findBy()
-        return $this->render('list-categories.html.twig', [  //Rendu de la vue list-categories.html.twig
-            'articles' => $articles,     //Passage de la variable $articles à la vue
-        ]);
-    }
-
-}       
+   
+       
    
 //2 {#Créez une nouvelle page, dans votre classe PageController, nommée 404
 //Créez un fichier twig 404.html.twig affichant "page non trouvée" 

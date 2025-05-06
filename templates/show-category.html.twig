@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block metatitle %}
+	{{ category.title }}
+{% endblock metatitle %}
+
+{% block main %}
+<main>
+	<section class="category-section">
+			<h2>{{ category.title }}</h2>
+			<div>
+			    <article class="article-card {{ category.color }}">  {# Donne une classe par couleur aux catégories #}
+					<h3>{{ category.title }}</h3>
+					<p>{{ category.description }}</p>
+					<span>Publié le : {{ category.createdAt | date('d/m/Y') }}</span>
+			    </article>
+		    </div>
+	</section>
+</main>{% endblock main %}
