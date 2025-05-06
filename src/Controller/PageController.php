@@ -31,6 +31,8 @@ class PageController extends AbstractController
     {
         return $this->redirectToRoute('list-articles'); //je redirige vers la liste des articles
     }
+
+    
 }
 
 //{#Créez une nouvelle page, dans votre classe PageController, nommée 404

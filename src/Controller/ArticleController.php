@@ -133,6 +133,7 @@ class ArticleController extends AbstractController
             'article' => $article     //Passage de la variable $article à la vue
         ]);
 }
+        
 }
    
        
