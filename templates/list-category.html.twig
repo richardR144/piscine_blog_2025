@@ -12,11 +12,9 @@
             <article>
             <div>
                 {% for category in categories %}
-                <a href="{{ path('show-category', { id: category.id }) }}">  {# Lien vers la page de la catégorie #}
-                    <article class="article-card {{ category.color }}">  {# Donne une classe par couleur aux catégories #}
-                        <h3>{{ category.title }}</h3>
-                        <p>{{ category.description }}</p>
-                        <span>Publié le : {{ category.createdAt | date('d/m/Y') }}</span>
+                <a href="{{ path('details-category', { id: category.id }) }}">  {# Lien vers la page de la catégorie #}
+                    <article style="background-color: {{ category.color }};" class="article">  {# Donne une classe par couleur aux catégories #}
+                        <h3>{{ category.title }}</h3>    
                     </article>
                 {% endfor %}
             </div>

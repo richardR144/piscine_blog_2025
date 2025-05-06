@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Form\CategoryForm;
 use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 
-
-class CategoryController extends AbstractController
+class CategoryController extends AbstractController  
 {
     #[Route('/categories', name: 'list-category')]
     public function displayListCategory(CategoryRepository $categoryRepository): Response
@@ -24,7 +26,7 @@ class CategoryController extends AbstractController
     }
     
     #[Route('/categorie/{id}', name: 'show-category')]  
-    public function showCategory(CategoryRepository $categoryRepository, $id): Response
+    public function displayShowCategory($id, CategoryRepository $categoryRepository): Response
     {
         $category = $categoryRepository->find($id);
 
@@ -32,9 +34,35 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('404');
         }
     
-        return $this->render('show-category.html.twig', [
+        return $this->render('details-category.html.twig', [
             'category' => $category
         ]);
     }
-}
+
+    //David : générez un gabarit de formulaire pour la création de category avec "php bin/console make:form" (répondez Category aux deux questions)
+    //créez une page sur l'url create-category, qui instancie la classe Category et utilise le gabarit de formulaire pour afficher le formulaire dans un fichier twig
+    //Dans le controleur, récupèrez les données envoyées en POST et stockez les en bdd grâce au système de formulaire de symfony
+
+    //Création d'une catégorie
+    #[Route('/create-category', name: 'create-category')]
+    public function displayCreateCategory(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $category = new Category();
+        $categoryForm = $this->createForm(CategoryForm::class, $category);
+        $categoryForm->handleRequest($request);
+
+        if ($categoryForm->isSubmitted()) {
+
+            $entityManager->persist($category);
+            $entityManager->flush();
+            $this->addFlash('success', 'La catégorie a été créée avec succès !');
+        }
+
+        return $this->render('create-category.html.twig', [
+            'categoryForm' => $categoryForm->createView()
+        ]);
+    }
+       
+    }
+
     
