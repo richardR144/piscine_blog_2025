@@ -77,7 +77,7 @@ class CategoryController extends AbstractController
 
             $entityManager->persist($category);
             $entityManager->flush();
-            $this->addFlash('success', 'La catégorie a été créée avec succès !');
+            $this->addFlash('success', 'La catégorie a été modifié avec succès !');
         }
 
         return $this->render('update-category.html.twig', [
