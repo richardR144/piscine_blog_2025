@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
 {
+    #[Route('/categories', name: 'list-category')]
     public function displayListCategory(CategoryRepository $categoryRepository): Response
     {
         
