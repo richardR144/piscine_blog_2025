@@ -133,6 +133,16 @@ class ArticleController extends AbstractController
             'article' => $article     //Passage de la variable $article à la vue
         ]);
 }
+
+    #[Route('/category/{title}', name: 'category-articles')]  //Route vers la page d'affichage des articles par catégorie
+    public function displayCategoryArticles($category, ArticleRepository $articleRepository): Response //Injection de dépendance de l'ArticleRepository
+    {
+        $articles = $articleRepository->findBy(['category' => $category]);  //Récupération de tous les articles de la base de données avec la méthode findBy()
+        return $this->render('list-articles.html.twig', [  //Rendu de la vue list-articles.html.twig
+            'articles' => $articles,     //Passage de la variable $articles à la vue
+        ]);
+    }
+
 }       
    
 //2 {#Créez une nouvelle page, dans votre classe PageController, nommée 404
