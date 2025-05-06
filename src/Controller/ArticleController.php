@@ -27,8 +27,6 @@ class ArticleController extends AbstractController
             $description = $request->request->get('description');
             $image = $request->request->get('image');
             
-
-            
             $article = new Article($title, $description, $content, $image); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
             
             //méthode 1: en déclarant tous les setters
@@ -46,7 +44,10 @@ class ArticleController extends AbstractController
             $entityManager->flush();            //Envoi de la requête à la base de données pour l'insertion de l'article
             $message = $this->addFlash('success', 'L\'article a été créé avec succès !'); //Création d'un message flash de succès pour la création de l'article
         }
-        return $this->render('create-article.html.twig');
+        $categories = $categoryRepository->findAll(); //Récupération de toutes les catégories de la base de données avec la méthode findAll()
+        return $this->render('create-article.html.twig', [  //Rendu de la vue create-article.html.twig
+            'categories' => $categories,     //Passage de la variable $categories à la vue
+        ]);
     }
 
     //Liste d'articles

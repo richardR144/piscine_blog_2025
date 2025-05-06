@@ -10,7 +10,7 @@
             <input type="text" id="title" name="title" required>
         </div>
 
-        <select name="category" id="category" required>
+        <select name="category">
             
             {% for category in categories %}
                 <option value="{{ category.id }}">{{ category.title }}</option>
