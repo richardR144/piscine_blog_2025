@@ -9,6 +9,13 @@
             <label for="title">Titre:</label>
             <input type="text" id="title" name="title" required>
         </div>
+
+        <select name="category" id="category" required>
+            
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.title }}</option>
+            {% endfor %}
+        </select>
         <div>
             <label for="content">Contenu:</label>
             <textarea id="content" name="content" required></textarea>

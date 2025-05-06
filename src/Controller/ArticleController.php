@@ -10,6 +10,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository; //Importation de la classe EntityRepository pour la gestion des entités
+use App\Repository\CategoryRepository; //Importation de la classe CategoryRepository pour la gestion des catégories
 
 // Création d'articles
 //David: Après la création de l'instance de la classe Article, utilisez une instance la 
@@ -18,16 +19,17 @@ use Doctrine\ORM\EntityRepository; //Importation de la classe EntityRepository p
 class ArticleController extends AbstractController
 {
     #[Route('/create-article', name: 'create-article')]
-    public function displayCreateArticle(Request $request, EntityManagerInterface $entityManager): Response
+    public function displayCreateArticle(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         if($request->isMethod('POST')) {
             $title = $request->request->get('title');
             $content = $request->request->get('content');
             $description = $request->request->get('description');
             $image = $request->request->get('image');
+            
 
             
-            $article = new Article($title, $description, $content, $image);
+            $article = new Article($title, $description, $content, $image); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
             
             //méthode 1: en déclarant tous les setters
             //$article->setTitle($title);
