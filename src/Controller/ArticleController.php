@@ -26,8 +26,10 @@ class ArticleController extends AbstractController
             $content = $request->request->get('content');
             $description = $request->request->get('description');
             $image = $request->request->get('image');
-            
-            $article = new Article($title, $description, $content, $image); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
+            $categoryId = $request->request->get('category'); //Récupération de l'id de la catégorie du formulaire
+
+            $categories = $categoryRepository->find($categoryId); //Récupération de la catégorie avec l'id passé en paramètre du formulaire
+            $article = new Article($title, $description, $content, $image, $categoryId); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
             
             //méthode 1: en déclarant tous les setters
             //$article->setTitle($title);
@@ -44,9 +46,11 @@ class ArticleController extends AbstractController
             $entityManager->flush();            //Envoi de la requête à la base de données pour l'insertion de l'article
             $message = $this->addFlash('success', 'L\'article a été créé avec succès !'); //Création d'un message flash de succès pour la création de l'article
         }
-        $categories = $categoryRepository->findAll(); //Récupération de toutes les catégories de la base de données avec la méthode findAll()
-        return $this->render('create-article.html.twig', [  //Rendu de la vue create-article.html.twig
-            'categories' => $categories,     //Passage de la variable $categories à la vue
+            
+            $categories = $categoryRepository->findAll(); //Récupération de toutes les catégories de la base de données avec la méthode findAll()
+                //SELECT * FROM category
+                return $this->render('create-article.html.twig', [  //Rendu de la vue create-article.html.twig
+                    'categories' => $categories,     //Passage de la variable $categories à la vue
         ]);
     }
 
