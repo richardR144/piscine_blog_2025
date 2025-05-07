@@ -28,8 +28,9 @@ class ArticleController extends AbstractController
             $image = $request->request->get('image');
             $categoryId = $request->request->get('category'); //Récupération de l'id de la catégorie du formulaire
 
-            $categories = $categoryRepository->find($categoryId); //Récupération de la catégorie avec l'id passé en paramètre du formulaire
-            $article = new Article($title, $description, $content, $image, $categoryId); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
+            $categorie = $categoryRepository->find($categoryId); //Récupération de la catégorie avec l'id passé en paramètre du formulaire
+            
+            $article = new Article($title, $description, $content, $image, $categorie); //Création d'une nouvelle instance de l'entité Article avec les données du formulaire
             
             //méthode 1: en déclarant tous les setters
             //$article->setTitle($title);
@@ -166,3 +167,9 @@ class ArticleController extends AbstractController
 //dans la liste des articles, faites un lien pour chaque article vers la page de suppression de de l'article
 //pensez à ajoutez l'affichage des messages flashes dans votre votre base.html.twig
 //6 Créez un message flash de succès pour la suppression de l'article et redirigez vers la page d'accueil
+
+
+//8 David:Dans le controleur de creation d'article, récupérez l'id de la catégorie sélectionnée. Puis récupérez la catégorie 
+//complète liée à cet id grâce à la classe CategoryRepository.
+//Stockez la catégorie dans l'instance de la classe Article grâce au constructeur
+//Vérifiez qu'au submit, l'id de la catégorie soit bien enregistré dans l'article dans la BDD
